@@ -1,3 +1,4 @@
+from collections import defaultdict
 import string
 
 keywords = [
@@ -42,7 +43,6 @@ FSM = {
         **dict.fromkeys(digits, "NUM"),
         "/": "STOP",
     },
-    "SYMBOL": {**dict.fromkeys(charset, "STOP"), "/": "STOP"},
     "=": {**dict.fromkeys(charset, "STOP"), "=": "==", "/": "STOP"},
     "==": {**dict.fromkeys(charset, "STOP"), "/": "STOP"},
     "ERROR": {
@@ -65,9 +65,8 @@ def nextt(iterator):
     return char
 
 
-def panic(msg):
-    global line_number
-    return f"Line: {line_number}: ({msg}, invalid input)"
+def panic(msg, line_number):
+    return f"Line {line_number}: ({msg}, invalid input)"
 
 
 def output(token_type, token):
@@ -87,15 +86,18 @@ def get_nextt_token(prog, look_ahead=""):
     while state == "START":
         token = nextt(prog)
         initial_state = state = FSM[state].get(token[-1], "ERROR")
-    if state == "COMMENT":
+    if state == "SYMBOL":
+        return output("SYMBOL", token), ""
+    elif state == "COMMENT":
         look_ahead = nextt(prog)
         if look_ahead == "*":
+            temp_line_number = line_number
             try:
                 # skip until '*/'
                 while nextt(prog) != "*" or nextt(prog) != "/":
                     pass
             except StopIteration:
-                return panic("/*"), ""
+                return panic("/*", temp_line_number), ""
             return get_nextt_token(prog)
         elif look_ahead == "/":
             try:
@@ -105,7 +107,7 @@ def get_nextt_token(prog, look_ahead=""):
                 return "", ""  # think about this
             return get_nextt_token(prog)
         elif look_ahead in whitespace:
-            return panic("/"), ""
+            return panic("/", line_number - 1), ""
         else:
             state = "ERROR"
             token += look_ahead
@@ -116,7 +118,10 @@ def get_nextt_token(prog, look_ahead=""):
         initial_state = state
         state = FSM[state].get(token[-1], "ERROR")
     if initial_state == "ERROR":
-        return panic(token[:-1]), token[-1]
+        return (
+            panic(token[:-1], line_number - 1 if token[-1] == "\n" else line_number),
+            token[-1],
+        )
     else:
         return (
             output(initial_state, token[:-1]),

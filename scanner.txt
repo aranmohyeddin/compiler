@@ -135,6 +135,7 @@
 (SYMBOL, ;)
 (SYMBOL, ;)
 (KEYWORD, int)
+(SYMBOL, ;)
 (ID, end)
 (ID, a)
 (NUM, 1)
