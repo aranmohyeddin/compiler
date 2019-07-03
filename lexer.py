@@ -1,6 +1,7 @@
-from collections import defaultdict
 import string
 
+with open("program.sex", "r") as inn:
+    prog = iter(inn.read())
 keywords = [
     "if",
     "else",
@@ -21,8 +22,8 @@ whitespace = string.whitespace  # ' \t\n\r\x0b\x0c'
 terminal = whitespace + symbols
 alphanum = digits + letters
 charset = terminal + alphanum
-
-
+ltwlol = False  # see the usage
+look_ahead = ""
 FSM = {
     "START": {
         **dict.fromkeys(whitespace, "START"),
@@ -54,15 +55,16 @@ FSM = {
     "COMMENT": None,  # We either have an error or there is a comment to skip
 }
 
-line_number = 1
-
 
 def nextt(iterator):
-    global line_number
     char = next(iterator)
     if char == "\n":
-        line_number += 1
+        nextt.line_number = getattr(nextt, "line_number", 1) + 1
+        nextt.newline_text = f"\n{nextt.line_number}."
     return char
+
+
+nextt.newline_text = "1."  # initialize
 
 
 def panic(msg, line_number):
@@ -87,11 +89,14 @@ def get_nextt_token(prog, look_ahead=""):
         token = nextt(prog)
         initial_state = state = FSM[state].get(token[-1], "ERROR")
     if state == "SYMBOL":
-        return output("SYMBOL", token), ""
+        return (
+            output("SYMBOL", token),
+            nextt(prog),
+        )  # just to be consistent (it is needed for the newline_text logic to work, otherwise we will have some problems for lines with only one token
     elif state == "COMMENT":
         look_ahead = nextt(prog)
         if look_ahead == "*":
-            temp_line_number = line_number
+            temp_line_number = nextt.line_number
             try:
                 # skip until '*/'
                 while nextt(prog) != "*" or nextt(prog) != "/":
@@ -107,7 +112,7 @@ def get_nextt_token(prog, look_ahead=""):
                 return "", ""  # think about this
             return get_nextt_token(prog)
         elif look_ahead in whitespace:
-            return panic("/", line_number - 1), ""
+            return panic("/", nextt.line_number - 1), ""
         else:
             state = "ERROR"
             token += look_ahead
@@ -119,7 +124,10 @@ def get_nextt_token(prog, look_ahead=""):
         state = FSM[state].get(token[-1], "ERROR")
     if initial_state == "ERROR":
         return (
-            panic(token[:-1], line_number - 1 if token[-1] == "\n" else line_number),
+            panic(
+                token[:-1],
+                nextt.line_number - 1 if token[-1] == "\n" else nextt.line_number,
+            ),
             token[-1],
         )
     else:
@@ -129,17 +137,25 @@ def get_nextt_token(prog, look_ahead=""):
         )  # removed the last element of token
 
 
-with open("program.sex", "r") as inn:
-    prog = iter(inn.read())
 with open("scanner.txt", "w") as out, open("lexical_errors.txt", "w") as err:
-    outt = look_ahead = ""
     while True:
         try:
             outt, look_ahead = get_nextt_token(prog, look_ahead)
             if outt.endswith(", invalid input)"):
                 err.write(outt + "\n")
             else:
-                out.write(outt + "\n")
+                if look_ahead == "\n":
+                    if not nextt.last_text:
+                        print("_", outt)
+                        out.write(outt)
+                    else:
+                        print("__", outt)
+                        out.write(f"\n{nextt.line_number-1}." + outt)
+                    nextt.last_text = nextt.newline_text
+                else:
+                    out.write(nextt.newline_text + outt)
+                    nextt.last_text = nextt.newline_text
+                    nextt.newline_text = ""
+                    print("___", nextt.newline_text, nextt.last_text, outt)
         except StopIteration:
-            print("done")
             break
