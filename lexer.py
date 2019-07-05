@@ -1,7 +1,5 @@
 import string
 
-with open("program.sex", "r") as inn:
-    prog = iter(inn.read())
 keywords = [
     "if",
     "else",
@@ -22,8 +20,8 @@ whitespace = string.whitespace  # ' \t\n\r\x0b\x0c'
 terminal = whitespace + symbols
 alphanum = digits + letters
 charset = terminal + alphanum
-ltwlol = False  # see the usage
 look_ahead = ""
+first = True
 FSM = {
     "START": {
         **dict.fromkeys(whitespace, "START"),
@@ -60,7 +58,7 @@ def nextt(iterator):
     char = next(iterator)
     if char == "\n":
         nextt.line_number = getattr(nextt, "line_number", 1) + 1
-        nextt.newline_text = f"\n{nextt.line_number}."
+        nextt.newline_text = ("" if first else "\n") + f"{nextt.line_number}."
     return char
 
 
@@ -76,10 +74,13 @@ def output(token_type, token):
         token_type = "SYMBOL"
     if token_type == "ID" and token in keywords:
         token_type = "KEYWORD"
-    return f"({token_type}, {token})"
+    return (token_type, token)
 
 
 def get_nextt_token(prog, look_ahead=""):
+    """
+    returns token/err, look_ahead
+    """
     if not look_ahead:
         token = nextt(prog)
     else:
@@ -137,25 +138,27 @@ def get_nextt_token(prog, look_ahead=""):
         )  # removed the last element of token
 
 
-with open("scanner.txt", "w") as out, open("lexical_errors.txt", "w") as err:
-    while True:
-        try:
-            outt, look_ahead = get_nextt_token(prog, look_ahead)
-            if outt.endswith(", invalid input)"):
-                err.write(outt + "\n")
-            else:
-                if look_ahead == "\n":
-                    if not nextt.last_text:
-                        print("_", outt)
-                        out.write(outt)
-                    else:
-                        print("__", outt)
-                        out.write(f"\n{nextt.line_number-1}." + outt)
-                    nextt.last_text = nextt.newline_text
+if __name__ == "__main__":
+    with open("program.sex", "r") as inn:
+        prog = iter(inn.read())
+    with open("scanner.txt", "w") as out, open("lexical_errors.txt", "w") as err:
+        while True:
+            try:
+                outt, look_ahead = get_nextt_token(prog, look_ahead)
+                if type(outt) is str:
+                    err.write(outt + "\n")
                 else:
-                    out.write(nextt.newline_text + outt)
-                    nextt.last_text = nextt.newline_text
-                    nextt.newline_text = ""
-                    print("___", nextt.newline_text, nextt.last_text, outt)
-        except StopIteration:
-            break
+                    outt = "({}, {})".format(*outt)
+                    if look_ahead == "\n":
+                        if not nextt.last_text:
+                            out.write(outt)
+                        else:
+                            out.write(f"\n{nextt.line_number-1}." + outt)
+                        nextt.last_text = nextt.newline_text
+                    else:
+                        out.write(nextt.newline_text + outt)
+                        nextt.last_text = nextt.newline_text
+                        nextt.newline_text = ""
+                        first = False
+            except StopIteration:
+                break

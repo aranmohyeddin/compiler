@@ -1,34 +1,35 @@
 terminals = [
-    'EOF',
-    'ID',
-    'NUM',
-    'int',
-    'void',
-    'continue',
-    'break',
-    'if',
-    'while',
-    'else',
-    'return',
-    'switch',
-    'case',
-    'default',
-    ';',
-    ',',
-    ':',
-    '+',
-    '=',
-    '==',
-    '<',
-    '-',
-    '*',
-    '(',
-    ')',
-    '[',
-    ']',
-    '{',
-    '}'
+    "EOF",
+    "ID",
+    "NUM",
+    "int",
+    "void",
+    "continue",
+    "break",
+    "if",
+    "while",
+    "else",
+    "return",
+    "switch",
+    "case",
+    "default",
+    ";",
+    ",",
+    ":",
+    "+",
+    "=",
+    "==",
+    "<",
+    "-",
+    "*",
+    "(",
+    ")",
+    "[",
+    "]",
+    "{",
+    "}",
 ]
+
 
 class Rule:
     def __init__(self, lhs, rhs):
@@ -36,7 +37,7 @@ class Rule:
         self.lhs = lhs
 
     def __str__(self):
-        return self.lhs + '→' + str(self.rhs)
+        return self.lhs + "→" + str(self.rhs)
 
 
 def read_grammer(gram_dir):
@@ -48,11 +49,11 @@ def read_grammer(gram_dir):
         lhs = words[0]
         grammer[lhs] = []
         words = words[2:]
-        words.append('|')
+        words.append("|")
         while len(words) > 0:
-            i = words.index('|')
+            i = words.index("|")
             grammer[lhs].append(words[:i])
-            words = words[i + 1:]
+            words = words[i + 1 :]
 
     return grammer
 
@@ -63,13 +64,15 @@ print(grammar)
 
 def unique(list1):
     list_set = set(list1)
-    unique_list = (list(list_set))
+    unique_list = list(list_set)
     return unique_list
+
 
 first = {}
 
-for a in terminals + ['Ïµ']:
+for a in terminals + ["Ïµ"]:
     first[a] = [a]
+
 
 def calc_first(alpha):
     # print(alpha)
@@ -87,9 +90,9 @@ def calc_first(alpha):
             first[alpha] = unique(first[alpha])
             i = 0
 
-            while 'Ïµ' in first[lhs[0]] and i < len(lhs) - 1:
+            while "Ïµ" in first[lhs[0]] and i < len(lhs) - 1:
                 i = i + 1
-                if (not (lhs[i]  in first)) and lhs[i] != alpha:
+                if (not (lhs[i] in first)) and lhs[i] != alpha:
                     calc_first(lhs[i])
 
                 first[alpha] = first[alpha] + first[lhs[i]]
@@ -102,7 +105,8 @@ for a in grammar.keys():
 
 follow = {}
 
-follow['program'] = ['$']
+follow["program"] = ["$"]
+
 
 def calc_follow(alpha):
     # print(alpha)
@@ -113,22 +117,26 @@ def calc_follow(alpha):
     for _ in range(2):
         print(alpha)
         for lhs in grammar[alpha]:
-            for i in range(len(lhs)-1):
-                if not(lhs[i] in follow):
+            for i in range(len(lhs) - 1):
+                if not (lhs[i] in follow):
                     follow[lhs[i]] = []
-                follow[lhs[i]] = follow[lhs[i]] + list(set(first[lhs[i + 1]]) - set('Ïµ'))
+                follow[lhs[i]] = follow[lhs[i]] + list(
+                    set(first[lhs[i + 1]]) - set("Ïµ")
+                )
                 follow[lhs[i]] = unique(follow[lhs[i]])
                 j = i + 1
-                while 'Ïµ' in first[lhs[j]] and j < len(lhs) - 1:
+                while "Ïµ" in first[lhs[j]] and j < len(lhs) - 1:
                     j = j + 1
-                    follow[lhs[i]] = follow[lhs[i]] + list(set(first[lhs[j]]) - set('Ïµ'))
+                    follow[lhs[i]] = follow[lhs[i]] + list(
+                        set(first[lhs[j]]) - set("Ïµ")
+                    )
                     follow[lhs[i]] = unique(follow[lhs[i]])
 
             i = -1
 
-            while 'Ïµ' in first[lhs[i]] and i > -len(lhs) + 1:
+            while "Ïµ" in first[lhs[i]] and i > -len(lhs) + 1:
                 i = i - 1
-                if (not (lhs[i]  in follow)) and lhs[i] != alpha:
+                if (not (lhs[i] in follow)) and lhs[i] != alpha:
                     calc_follow(lhs[i])
 
                 follow[alpha] = follow[alpha] + follow[lhs[i]]
@@ -149,7 +157,7 @@ for a in grammar.keys():
         for t in first[lhs[0]]:
             Table[a, t] = lhs
 
-        if 'Ïµ' in first[lhs[i]] and i < len(lhs) - 1:
+        if "Ïµ" in first[lhs[i]] and i < len(lhs) - 1:
             i = i + 1
 
             for t in first[lhs[i]]:
@@ -169,7 +177,7 @@ class Stack:
 
 stack = Stack()
 
-stack.push('program')
-stack.push('$')
+stack.push("program")
+stack.push("$")
 
 a
