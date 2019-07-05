@@ -156,20 +156,18 @@ for a in grammar.keys():
                 Table[a, t] = lhs
 
 
-class Stack:
-    def __init__(self):
-        self.list = []
-
-    def push(self, a):
-        self.list.append(a)
-
-    def pop(self):
-        self.list = self.list[:-1]
 
 
-stack = Stack()
+stack = []
 
-stack.push('program')
-stack.push('$')
+stack.append('program')
+stack.append('$')
 
-a
+def next_action(token):
+    if stack[0] in terminals:
+        if stack[0] == token:
+            stack = stack[1:]
+
+
+
+

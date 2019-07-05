@@ -1,37 +1,37 @@
 program → declaration-list EOF
 declaration-list → declaration-list declaration | ϵ
 declaration → var-declaration | fun-declaration
-var-declaration → type-specifier ID x1 ;
+var-declaration → type-specifier #pid ID x1 ;
 x1 → ϵ | [ NUM ]
 type-specifier → int | void
-fun-declaration → type-specifier ID ( params ) compound-stmt
+fun-declaration → type-specifier #pid ID ( params ) compound-stmt
 params → param-list | void
 param-list → param-list , param | param
-param → type-specifier ID x2
+param → type-specifier #pid ID x2
 x2 → ϵ | [ ]
 compound-stmt → { declaration-list statement-list }
 statement-list → statement-list statement | ϵ
 statement → expression-stmt | compound-stmt | selection-stmt | iteration-stmt | return-stmt | switch-stmt
 expression-stmt → expression ; | continue ; | break ; | ;
-selection-stmt → if ( expression ) statement else statement
-iteration-stmt → while ( expression ) statement
+selection-stmt → if ( expression ) #save statement else #jpf_save statement #jp
+iteration-stmt → while #label( expression ) #save statement #while
 return-stmt → return x3 ;
 x3 → ϵ | expression
-switch-stmt → switch ( expression ) { case-stmts default-stmt }
+switch-stmt → #save #save #jp switch ( expression ) { case-stmts default-stmt }
 case-stmts → case-stmts case-stmt | ϵ
 case-stmt → case NUM : statement-list
 default-stmt → default : statement-list | ϵ
 expression → var = expression | simple-expression
-var → ID x4
+var → #pid ID x4
 x4 → ϵ | [ expression ]
 simple-expression → additive-expression x5
 x5 → relop additive-expression | ϵ
-relop → < | ==
+relop → #less < | #equal ==
 additive-expression → additive-expression addop term | term
-addop → + | -
-term → term * signed-factor | signed-factor
-signed-factor → factor | + factor | - factor
+addop → #add + | #sub -
+term → term #mult * signed-factor | signed-factor
+signed-factor → factor | + factor | #not - factor
 factor → ( expression ) | var | call | NUM
-call → ID ( args )
+call → #pid ID ( args )
 args → arg-list | ϵ
 arg-list → arg-list , expression | expression
