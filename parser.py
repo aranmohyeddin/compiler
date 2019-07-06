@@ -58,7 +58,7 @@ def read_grammer(gram_dir):
     return grammer
 
 
-grammar = read_grammer("Grammar")
+# grammar = read_grammer("Grammar")
 # print(grammar)
 
 
@@ -163,11 +163,6 @@ Table = {}
 #             for t in first[lhs[i]]:
 #                 Table[a, t] = lhs
 
-<<<<<<< HEAD
-=======
-        if "Ïµ" in first[lhs[i]] and i < len(lhs) - 1:
-            i = i + 1
->>>>>>> c255c9749e46807c92fcc8591782b8c48006e44c
 
 
 
@@ -183,10 +178,10 @@ Table = {}
 #
 
 
-<<<<<<< HEAD
+
 stack.push("program")
 stack.push("$")
-=======
->>>>>>> 71b95eac67855c2803de6e0bae3788f32bae9e5c
+
+
 
 print('Void main function error')
