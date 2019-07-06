@@ -1,0 +1,3 @@
+python lexer.py
+python parser.py scanner.txt
+python "semantic action.py"

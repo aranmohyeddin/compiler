@@ -1,2 +1,6 @@
-void main1(void){
+void foo(int x){
+output(x);
+}
+void main(void){
+    foo(1,54);
 }
