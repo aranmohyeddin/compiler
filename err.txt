@@ -1,1 +1,1 @@
-'Illegal void type error'
+Illegal numbe of arguments
