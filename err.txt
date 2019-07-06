@@ -1,2 +1,2 @@
-Illegal usage of break
+Type mismatch error
 
