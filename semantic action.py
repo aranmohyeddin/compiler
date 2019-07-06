@@ -109,6 +109,13 @@ if name == 'jp':
     stack.pop(1)
     i = i + 1
 
+if name == 'jp2':
+    PB[stack.list[stack.top() - 1]] = Operator('jp', ('#', i), None, None)
+    s = stack.list[-1]
+    stack.pop(2)
+    stack.push(s)
+    i = i + 1
+
 if name == 'jpf':
     PB[stack.list[stack.top()]] = Operator('jpf', ('', stack.list[stack.top() - 1]), ('#', i), None)
     stack.pop(2)

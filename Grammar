@@ -17,10 +17,10 @@ selection-stmt → if ( expression ) #save statement else #jpf_save statement #j
 iteration-stmt → while #label( expression ) #save statement #while
 return-stmt → return x3 ;
 x3 → ϵ | expression
-switch-stmt → #save #save #jp switch ( expression ) { case-stmts default-stmt }
+switch-stmt → #save #save #jp2 switch ( expression ) { case-stmts default-stmt }
 case-stmts → case-stmts case-stmt | ϵ
-case-stmt → case NUM : statement-list
-default-stmt → default : statement-list | ϵ
+case-stmt → #jpe case NUM #save : statement-list #jp
+default-stmt → #jpe default : statement-list #jp| ϵ #jp
 expression → var = expression | simple-expression
 var → #pid ID x4
 x4 → ϵ | [ expression ]

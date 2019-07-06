@@ -58,7 +58,7 @@ def read_grammer(gram_dir):
 
 
 grammar = read_grammer("Grammar")
-print(grammar)
+# print(grammar)
 
 
 def unique(list1):
@@ -78,7 +78,7 @@ def calc_first(alpha):
     first[alpha] = []
 
     for _ in range(2):
-        print(alpha)
+        # print(alpha)
         for lhs in grammar[alpha]:
             if (not lhs[0] in first) and lhs[0] != alpha:
                 calc_first(lhs[0])
@@ -158,16 +158,17 @@ for a in grammar.keys():
 
 
 
-stack = []
+# stack = []
+#
+# stack.append('program')
+# stack.append('$')
+#
+# def next_action(token):
+#     if stack[0] in terminals:
+#         if stack[0] == token:
+#             stack = stack[1:]
+#
 
-stack.append('program')
-stack.append('$')
-
-def next_action(token):
-    if stack[0] in terminals:
-        if stack[0] == token:
-            stack = stack[1:]
 
 
-
-
+print('Void main function')
