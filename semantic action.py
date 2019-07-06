@@ -4,6 +4,12 @@ name = "if"
 inp = "dummy"
 
 
+errors = {
+    'No Void Main Function Error.',
+    'Value Error Void.',
+}
+
+
 class VariableType(Enum):
     BOOLEAN = "BOOLEAN"
     INT = "INT"

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="640146ef-3c59-4a52-8f80-ff389ecae119" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/err.txt" beforeDir="false" afterPath="$PROJECT_DIR$/err.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/semantic action.py" beforeDir="false" afterPath="$PROJECT_DIR$/semantic action.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/err.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="28" selection-start-column="28" selection-end-column="28" />
+              <caret selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -51,11 +52,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/semantic action.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="715">
-              <caret line="132" column="16" selection-start-line="132" selection-start-column="16" selection-end-line="132" selection-end-column="16" />
+            <state relative-caret-position="136">
+              <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="8" selection-start-column="8" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -86,10 +96,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/semantic action.py" />
         <option value="$PROJECT_DIR$/Grammar" />
         <option value="$PROJECT_DIR$/parser.py" />
         <option value="$PROJECT_DIR$/err.txt" />
+        <option value="$PROJECT_DIR$/res.txt" />
+        <option value="$PROJECT_DIR$/semantic action.py" />
       </list>
     </option>
   </component>
@@ -137,23 +148,23 @@
       <option name="presentableId" value="Default" />
       <updated>1562168339935</updated>
       <workItem from="1562168342283" duration="4331000" />
-      <workItem from="1562249109525" duration="15195000" />
+      <workItem from="1562249109525" duration="15441000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19526000" />
+    <option name="totallyTimeSpent" value="19772000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="78" y="0" width="989" height="830" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24650161" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24650161" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32808024" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32808024" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -205,13 +216,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/semantic action.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="715">
-          <caret line="132" column="16" selection-start-line="132" selection-start-column="16" selection-end-line="132" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Grammar">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
@@ -229,7 +233,21 @@
     <entry file="file://$PROJECT_DIR$/err.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="28" selection-start-column="28" selection-end-column="28" />
+          <caret selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/semantic action.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
         </state>
       </provider>
     </entry>
