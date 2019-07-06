@@ -96,8 +96,8 @@ def calc_first(alpha):
                 first[alpha] = unique(first[alpha])
 
 
-for a in grammar.keys():
-    calc_first(a)
+# for a in grammar.keys():
+#     calc_first(a)
 
 
 follow = {}
@@ -135,25 +135,25 @@ def calc_follow(alpha):
                 follow[alpha] = unique(follow[alpha])
 
 
-for a in grammar.keys():
-    calc_follow(a)
+# for a in grammar.keys():
+#     calc_follow(a)
 
 # print(follow)
 
 Table = {}
 
 
-for a in grammar.keys():
-    for lhs in grammar[a]:
-        i = 0
-        for t in first[lhs[0]]:
-            Table[a, t] = lhs
-
-        if 'Ïµ' in first[lhs[i]] and i < len(lhs) - 1:
-            i = i + 1
-
-            for t in first[lhs[i]]:
-                Table[a, t] = lhs
+# for a in grammar.keys():
+#     for lhs in grammar[a]:
+#         i = 0
+#         for t in first[lhs[0]]:
+#             Table[a, t] = lhs
+#
+#         if 'Ïµ' in first[lhs[i]] and i < len(lhs) - 1:
+#             i = i + 1
+#
+#             for t in first[lhs[i]]:
+#                 Table[a, t] = lhs
 
 
 
