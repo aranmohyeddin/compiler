@@ -2,5 +2,6 @@ void foo(int x){
 output(x);
 }
 void main(void){
-    foo(1,54);
+    int a;
+    a = 1 + foo(2);
 }
