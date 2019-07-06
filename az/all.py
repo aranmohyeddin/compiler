@@ -20,8 +20,8 @@ whitespace = string.whitespace  # ' \t\n\r\x0b\x0c'
 terminal = whitespace + symbols
 alphanum = digits + letters
 charset = terminal + alphanum
-look_ahead = ""
-first = True
+
+
 FSM = {
     "START": {
         **dict.fromkeys(whitespace, "START"),
@@ -53,16 +53,17 @@ FSM = {
     "COMMENT": None,  # We either have an error or there is a comment to skip
 }
 
+newline_text = "1."
+line_number = 1
+
 
 def nextt(iterator):
+    global line_number, newline_text
     char = next(iterator)
     if char == "\n":
-        nextt.line_number = getattr(nextt, "line_number", 1) + 1
-        nextt.newline_text = ("" if first else "\n") + f"{nextt.line_number}."
+        line_number += 1
+        newline_text = f"\n{line_number}."
     return char
-
-
-nextt.newline_text = "1."  # initialize
 
 
 def panic(msg, line_number):
@@ -74,13 +75,11 @@ def output(token_type, token):
         token_type = "SYMBOL"
     if token_type == "ID" and token in keywords:
         token_type = "KEYWORD"
-    return (token_type, token)
+    return f"({token_type}, {token})"
 
 
 def get_nextt_token(prog, look_ahead=""):
-    """
-    returns token/err, look_ahead
-    """
+    global line_number
     if not look_ahead:
         token = nextt(prog)
     else:
@@ -97,7 +96,7 @@ def get_nextt_token(prog, look_ahead=""):
     elif state == "COMMENT":
         look_ahead = nextt(prog)
         if look_ahead == "*":
-            temp_line_number = nextt.line_number
+            temp_line_number = line_number
             try:
                 # skip until '*/'
                 while nextt(prog) != "*" or nextt(prog) != "/":
@@ -113,7 +112,7 @@ def get_nextt_token(prog, look_ahead=""):
                 return "", ""  # think about this
             return get_nextt_token(prog)
         elif look_ahead in whitespace:
-            return panic("/", nextt.line_number - 1), ""
+            return panic("/", line_number - 1), ""
         else:
             state = "ERROR"
             token += look_ahead
@@ -125,10 +124,7 @@ def get_nextt_token(prog, look_ahead=""):
         state = FSM[state].get(token[-1], "ERROR")
     if initial_state == "ERROR":
         return (
-            panic(
-                token[:-1],
-                nextt.line_number - 1 if token[-1] == "\n" else nextt.line_number,
-            ),
+            panic(token[:-1], line_number - 1 if token[-1] == "\n" else line_number),
             token[-1],
         )
     else:
@@ -138,27 +134,20 @@ def get_nextt_token(prog, look_ahead=""):
         )  # removed the last element of token
 
 
-if __name__ == "__main__":
-    with open("program.sex", "r") as inn:
-        prog = iter(inn.read())
-    with open("scanner.txt", "w") as out, open("lexical_errors.txt", "w") as err:
-        while True:
-            try:
-                outt, look_ahead = get_nextt_token(prog, look_ahead)
-                if type(outt) is str:
-                    err.write(outt + "\n")
+with open("program.sex", "r") as inn:
+    prog = iter(inn.read())
+with open("scanner.txt", "w") as out, open("lexical_errors.txt", "w") as err:
+    outt = look_ahead = ""
+    while True:
+        try:
+            outt, look_ahead = get_nextt_token(prog, look_ahead)
+            if outt.endswith(", invalid input)"):
+                err.write(outt + "\n")
+            else:
+                if newline_text and look_ahead == "\n":
+                    out.write(outt)
                 else:
-                    outt = "({}, {})".format(*outt)
-                    if look_ahead == "\n":
-                        if not nextt.last_text:
-                            out.write(outt)
-                        else:
-                            out.write(f"\n{nextt.line_number-1}." + outt)
-                        nextt.last_text = nextt.newline_text
-                    else:
-                        out.write(nextt.newline_text + outt)
-                        nextt.last_text = nextt.newline_text
-                        nextt.newline_text = ""
-                        first = False
-            except StopIteration:
-                break
+                    out.write(newline_text + outt)
+                    newline_text = ""
+        except StopIteration:
+            break
