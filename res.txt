@@ -1,1 +1,1 @@
-Return 5
+Return 2
