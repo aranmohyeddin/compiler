@@ -111,7 +111,7 @@ def calc_follow(alpha):
     follow[alpha] = []
 
     for _ in range(2):
-        print(alpha)
+        # print(alpha)
         for lhs in grammar[alpha]:
             for i in range(len(lhs)-1):
                 if not(lhs[i] in follow):
@@ -138,7 +138,7 @@ def calc_follow(alpha):
 for a in grammar.keys():
     calc_follow(a)
 
-print(follow)
+# print(follow)
 
 Table = {}
 
@@ -171,4 +171,4 @@ for a in grammar.keys():
 
 
 
-print('Void main function')
+print('Void main function error')
