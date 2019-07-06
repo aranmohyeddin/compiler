@@ -6,7 +6,7 @@ inp = "dummy"
 
 errors = {
     'No Void Main Function Error.',
-    'Illegal type error.',
+    'Illegal void type error',
     'ID is not fine',
     'Value error, value not found.'
 }
