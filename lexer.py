@@ -127,7 +127,7 @@ def get_nextt_token(prog, look_ahead=""):
         return (
             panic(
                 token[:-1],
-                nextt.line_number - 1 if token[-1] == "\n" else nextt.line_number,
+                getattr(nextt, "line_number", 1) - 1 if token[-1] == "\n" else getattr(nextt, "line_number", 1)
             ),
             token[-1],
         )

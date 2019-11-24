@@ -164,8 +164,6 @@ Table = {}
 #                 Table[a, t] = lhs
 
 
-
-
 # stack = []
 #
 # stack.append('program')
@@ -178,10 +176,8 @@ Table = {}
 #
 
 
-
 stack.push("program")
 stack.push("$")
 
 
-
-print('Void main function error')
+print("Void main function error")

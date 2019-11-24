@@ -1,0 +1,3 @@
+Line 1: (23.45, invalid input)
+Line 1: (/4, invalid input)
+Line 2: (23a, invalid input)
